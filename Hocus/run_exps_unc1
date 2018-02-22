@@ -1,0 +1,8 @@
+#!/bin/bash
+#Script to autoexecute several experiments with varying parameters
+clear
+python exps.py fashion vgg1 all 90 1 100 results/uncertainty/exp1
+python exps.py cifar vgg1 all 90 1 100 results/uncertainty/exp2
+python exps.py fashion vgg2 all 90 1 100 results/uncertainty/exp3
+python exps.py cifar vgg2 all 90 1 100 results/uncertainty/exp4
+python look_at_this_graph.py
