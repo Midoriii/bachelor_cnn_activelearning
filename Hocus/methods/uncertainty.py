@@ -7,7 +7,7 @@ class UncertaintySampling():
         self.method = method
 
 
-    def querry(self, K):
+    def querry(self, K, already_asked_ids):
         classProb = self.model.predict(x=self.dataset)
 
         if self.method == 'lc':

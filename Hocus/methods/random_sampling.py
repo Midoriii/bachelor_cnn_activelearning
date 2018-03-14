@@ -7,7 +7,7 @@ class RandomSampling():
         self.dataset = dataset
 
 
-    def querry(self, K):
+    def querry(self, K, already_asked_ids):
         ask_id = []
         # We want a K number of unique random additions
         while len(set(ask_id)) < K:

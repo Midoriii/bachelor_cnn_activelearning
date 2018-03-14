@@ -9,17 +9,27 @@ import matplotlib.pyplot as plt
 
 import numpy as np
 
+
+# Get arguments from console
+args = sys.argv[1:]
+exp_path = args[0]
+
 # Cesta k vysledkum/datum
 i = 1
-data_path = "results/uncertainty/exp" + str(i) + ".npz"
+data_path = "results/" + exp_path + str(i) + ".npz"
 
 lcErr = 0
 smErr = 0
 entErr = 0
+rsErr = 0
+kcgErr = 0
 labeled = 0
+baseErr = 0
 dataset = ''
 method = ''
 model = ''
+
+print("Plotting " + exp_path)
 
 # For every file containing data
 while os.path.isfile(data_path):
@@ -32,6 +42,8 @@ while os.path.isfile(data_path):
     baseErr[:] = [x * 100.0 for x in baseErr]
     rsErr = graph_data['rs']
     rsErr[:] = [x * 100.0 for x in rsErr]
+    kcgErr = graph_data['kcg']
+    kcgErr[:] = [x * 100.0 for x in kcgErr]
     lcErr = graph_data['lc']
     lcErr[:] = [x * 100.0 for x in lcErr]
     smErr = graph_data['sm']
@@ -43,15 +55,20 @@ while os.path.isfile(data_path):
     method = graph_data['method']
     model = graph_data['model']
 
-    baseErr = savgol_filter(baseErr, 27, 2)
-    rsErr = savgol_filter(rsErr, 27, 2)
-    lcErr = savgol_filter(lcErr, 27, 2)
-    smErr = savgol_filter(smErr, 27, 2)
-    entErr = savgol_filter(entErr, 27, 2)
+    # Make single line from baseline error -- only the best score, the unreachable border
+    baseErrMax = max(baseErr)
+    baseErrLine = np.empty(len(labeled))
+    baseErrLine.fill(baseErrMax)
+
+    rsErr = savgol_filter(rsErr, 15, 9)
+    lcErr = savgol_filter(lcErr, 15, 9)
+    smErr = savgol_filter(smErr, 15, 9)
+    entErr = savgol_filter(entErr, 15, 9)
+    kcgErr = savgol_filter(kcgErr, 15, 9)
 
     # Plot data based on method used
     if method == 'base' or method == 'all':
-        plt.plot(labeled, baseErr, linestyle = ':', color='C1', label='Base')
+        plt.plot(labeled, baseErrLine, linestyle = ':', color='C1', label='Base')
     if method == 'rs' or method == 'all':
         plt.plot(labeled, rsErr, linestyle=':', color='y', label='RS')
     if method == 'lc' or method == 'all':
@@ -60,6 +77,8 @@ while os.path.isfile(data_path):
         plt.plot(labeled, smErr, 'r', label='SM')
     if method == 'ent' or method == 'all':
         plt.plot(labeled, entErr, 'b', label='ENT')
+    if method == 'kcg' or method == 'all':
+        plt.plot(labeled, kcgErr, 'o', label='KCG')
 
     # Add labels and title
     plt.xlabel('Labeled %')
@@ -82,7 +101,7 @@ while os.path.isfile(data_path):
     for label in legend.get_lines():
         label.set_linewidth(1.5)
 
-    figpath = "results/uncertainty/exp" + str(i) + ".png"
+    figpath = "results/" + exp_path + str(i) + ".png"
 
     # Plot graphs to a file
     plt.savefig(figpath)
@@ -90,4 +109,4 @@ while os.path.isfile(data_path):
     plt.clf()
 
     i += 1
-    data_path = "results/uncertainty/exp" + str(i) + ".npz"
+    data_path = "results/" + exp_path + str(i) + ".npz"

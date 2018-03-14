@@ -3,3 +3,4 @@
 clear
 ./run_exps_unc1
 ./run_exps_unc5
+./run_exps_oracle5

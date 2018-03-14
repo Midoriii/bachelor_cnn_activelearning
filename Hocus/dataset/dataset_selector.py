@@ -1,6 +1,8 @@
 import numpy as np
 
+import h5py
 import keras
+import sys
 from keras.datasets import mnist
 
 from tools.tools import readCIFAR, mapLabelsOneHot,load_mnist
@@ -28,8 +30,8 @@ def getData(dataset):
         actTrnLabels = trnLabels[:10000,:]
 
         # Pool from which to choose "unlabeled" samples
-        actPoolData = trnData[10000:100000,:,:,:]
-        actPoolLabels = trnLabels[10000:100000,:]
+        actPoolData = trnData[10000:,:,:,:]
+        actPoolLabels = trnLabels[10000:,:]
 
     elif dataset == "fashion":
         # URLs for a function to download .gz from
@@ -53,8 +55,50 @@ def getData(dataset):
         actTrnData = trnData[:6000,:,:,:]
         actTrnLabels = trnLabels[:6000,:]
 
-        actPoolData = trnData[6000:60000,:,:,:]
-        actPoolLabels = trnLabels[6000:60000,:]
+        actPoolData = trnData[6000:,:,:,:]
+        actPoolLabels = trnLabels[6000:,:]
+
+    elif dataset == "imnet":
+        hdf5_file = h5py.File('dataset/imnet/imnet.hdf5', "r")
+
+        trnData = hdf5_file["train_img"][:, ...]
+        tstData = hdf5_file["tst_img"][:, ...]
+
+        trnLabels = hdf5_file["train_labels"][:]
+        tstLabels = hdf5_file["tst_labels"][:]
+
+        trnData = trnData.astype(np.float32) / 255.0 - 0.5
+        tstData = tstData.astype(np.float32) / 255.0 - 0.5
+
+        trnLabels = mapLabelsOneHot(trnLabels)
+        tstLabels = mapLabelsOneHot(tstLabels)
+
+        actTrnData = trnData[:int(0.11*len(trnData)),:,:,:]
+        actTrnLabels = trnLabels[:int(0.11*len(trnData)),:]
+
+        actPoolData = trnData[int(0.11*len(trnData)):,:,:,:]
+        actPoolLabels = trnLabels[int(0.11*len(trnData)):,:]
+
+    elif dataset == "vgg2f":
+        hdf5_file = h5py.File('dataset/vgg2f/vgg2f.hdf5', "r")
+
+        trnData = hdf5_file["train_img"][:, ...]
+        tstData = hdf5_file["tst_img"][:, ...]
+
+        trnLabels = hdf5_file["train_labels"][:]
+        tstLabels = hdf5_file["tst_labels"][:]
+
+        trnData = trnData.astype(np.float32) / 255.0 - 0.5
+        tstData = tstData.astype(np.float32) / 255.0 - 0.5
+
+        trnLabels = mapLabelsOneHot(trnLabels)
+        tstLabels = mapLabelsOneHot(tstLabels)
+
+        actTrnData = trnData[:int(0.11*len(trnData)),:,:,:]
+        actTrnLabels = trnLabels[:int(0.11*len(trnData)),:]
+
+        actPoolData = trnData[int(0.11*len(trnData)):,:,:,:]
+        actPoolLabels = trnLabels[int(0.11*len(trnData)):,:]
 
     else:
         print("Incorrect dataset")
