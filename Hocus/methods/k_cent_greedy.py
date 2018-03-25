@@ -56,7 +56,7 @@ class KCenterGreedy():
             ind = np.argmax(self.min_distances)
 
           # Shouldn't be a cluster center
-          assert ind not in already_asked_ids
+          #assert ind not in already_asked_ids
 
           self.update_distances([ind])
 

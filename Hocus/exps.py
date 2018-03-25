@@ -68,7 +68,7 @@ def tfSetUp():
     # This is not needed on dedicated machines.
     # Allows you to share the GPU.
     # This is specific to tensorflow.
-    gpu_memory_usage=0.7
+    gpu_memory_usage=0.37
     config = tf.ConfigProto()
     config.gpu_options.allocator_type = 'BFC'
     config.gpu_options.per_process_gpu_memory_fraction = gpu_memory_usage
@@ -89,7 +89,7 @@ def getError(Model, Data, Labels):
 
 
 # Active learning loop
-def actLearning(model, percentage_limit, oracle_correct, pseudo_labels, qs, K, actTrnData, trnData, actTrnLabels, tstData, tstLabels, actPoolData, actPoolLabels):
+def actLearning(model, percentage_limit, oracle_correct, pseudo_labels, qs, K, actTrnData, trnData, trnLabels, actTrnLabels, tstData, tstLabels, actPoolData, actPoolLabels):
     # Initial error
     err = getError(model, tstData, tstLabels)
     # Initial labeled %
@@ -206,35 +206,35 @@ def main():
     if mthd == "rs" or mthd == "all":
         print("\nRunning rs\n")
         qs = RandomSampling(model, actPoolData)
-        rsErr, labeled = actLearning(model, percentage_limit, oracle_correct, pseudo_labels, qs, K, actTrnData, trnData, actTrnLabels, tstData, tstLabels, actPoolData, actPoolLabels)
+        rsErr, labeled = actLearning(model, percentage_limit, oracle_correct, pseudo_labels, qs, K, actTrnData, trnData, trnLabels, actTrnLabels, tstData, tstLabels, actPoolData, actPoolLabels)
         # Load inital weights for other methods to use
         model.load_weights('tmpweights.h5')
 
     if mthd == "lc" or mthd == "all":
         print("\nRunning lc\n")
         qs = UncertaintySampling(model, "lc", actPoolData)
-        lcErr, labeled = actLearning(model, percentage_limit, oracle_correct, pseudo_labels, qs, K, actTrnData, trnData, actTrnLabels, tstData, tstLabels, actPoolData, actPoolLabels)
+        lcErr, labeled = actLearning(model, percentage_limit, oracle_correct, pseudo_labels, qs, K, actTrnData, trnData, trnLabels, actTrnLabels, tstData, tstLabels, actPoolData, actPoolLabels)
         # Load inital weights for other methods to use
         model.load_weights('tmpweights.h5')
 
     if mthd == "sm" or mthd == "all":
         print("\nRunning sm\n")
         qs = UncertaintySampling(model, "sm", actPoolData)
-        smErr, labeled = actLearning(model, percentage_limit, oracle_correct, pseudo_labels, qs, K, actTrnData, trnData, actTrnLabels, tstData, tstLabels, actPoolData, actPoolLabels)
+        smErr, labeled = actLearning(model, percentage_limit, oracle_correct, pseudo_labels, qs, K, actTrnData, trnData, trnLabels, actTrnLabels, tstData, tstLabels, actPoolData, actPoolLabels)
         # Load inital weights for other methods to use
         model.load_weights('tmpweights.h5')
 
     if mthd == "ent" or mthd == "all":
         print("\nRunning ent\n")
         qs = UncertaintySampling(model, "ent", actPoolData)
-        entErr, labeled = actLearning(model, percentage_limit, oracle_correct, pseudo_labels, qs, K, actTrnData, trnData, actTrnLabels, tstData, tstLabels, actPoolData, actPoolLabels)
+        entErr, labeled = actLearning(model, percentage_limit, oracle_correct, pseudo_labels, qs, K, actTrnData, trnData, trnLabels, actTrnLabels, tstData, tstLabels, actPoolData, actPoolLabels)
         # Load inital weights for other methods to use
         model.load_weights('tmpweights.h5')
 
     if mthd == "kcg" or mthd == "all":
         print("\nRunning kcg\n")
         qs = KCenterGreedy(actPoolData)
-        kcgErr, labeled = actLearning(model, percentage_limit, oracle_correct, pseudo_labels, qs, K, actTrnData, trnData, actTrnLabels, tstData, tstLabels, actPoolData, actPoolLabels)
+        kcgErr, labeled = actLearning(model, percentage_limit, oracle_correct, pseudo_labels, qs, K, actTrnData, trnData, trnLabels, actTrnLabels, tstData, tstLabels, actPoolData, actPoolLabels)
         # Load inital weights for other methods to use
         model.load_weights('tmpweights.h5')
 

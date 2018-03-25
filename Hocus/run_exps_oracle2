@@ -1,0 +1,34 @@
+#!/bin/bash
+#Script to autoexecute several experiments with varying parameters
+clear
+python exps.py fashion vgg1 all 100 2 95 no results/oracle/exp1
+python exps.py cifar vgg1 all 100 2 95 no results/oracle/exp2
+python exps.py imnet vgg1 all 100 2 95 no results/oracle/exp3
+python exps.py vgg2f vgg1 all 100 2 95 no results/oracle/exp4
+
+python exps.py fashion vgg2 all 100 2 95 no results/oracle/exp5
+python exps.py cifar vgg2 all 100 2 95 no results/oracle/exp6
+python exps.py imnet vgg2 all 100 2 95 no results/oracle/exp7
+python exps.py vgg2f vgg2 all 100 2 95 no results/oracle/exp8
+
+python exps.py fashion vgg1 all 100 2 90 no results/oracle/exp9
+python exps.py cifar vgg1 all 100 2 90 no results/oracle/exp10
+python exps.py imnet vgg1 all 100 2 90 no results/oracle/exp11
+python exps.py vgg2f vgg1 all 100 2 90 no results/oracle/exp12
+
+python exps.py fashion vgg2 all 100 2 90 no results/oracle/exp13
+python exps.py cifar vgg2 all 100 2 90 no results/oracle/exp14
+python exps.py imnet vgg2 all 100 2 90 no results/oracle/exp15
+python exps.py vgg2f vgg2 all 100 2 90 no results/oracle/exp16
+
+python exps.py fashion vgg1 all 100 2 85 no results/oracle/exp17
+python exps.py cifar vgg1 all 100 2 85 no results/oracle/exp18
+python exps.py imnet vgg1 all 100 2 85 no results/oracle/exp19
+python exps.py vgg2f vgg1 all 100 2 85 no results/oracle/exp20
+
+python exps.py fashion vgg2 all 100 2 85 no results/oracle/exp21
+python exps.py cifar vgg2 all 100 2 85 no results/oracle/exp22
+python exps.py imnet vgg2 all 100 2 85 no results/oracle/exp23
+python exps.py vgg2f vgg2 all 100 2 85 no results/oracle/exp24
+
+python look_at_this_graph.py oracle/exp

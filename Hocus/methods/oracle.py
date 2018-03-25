@@ -1,5 +1,6 @@
 import numpy as np
 from random import randint
+from tools.tools import mapLabelsOneHot
 
 
 # Simulate faulty oracle that doesn't always get the label right

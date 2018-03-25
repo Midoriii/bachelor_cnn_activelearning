@@ -56,7 +56,7 @@ while os.path.isfile(data_path):
     model = graph_data['model']
 
     # Make single line from baseline error -- only the best score, the unreachable border
-    baseErrMax = max(baseErr)
+    baseErrMax = min(baseErr)
     baseErrLine = np.empty(len(labeled))
     baseErrLine.fill(baseErrMax)
 
@@ -78,7 +78,7 @@ while os.path.isfile(data_path):
     if method == 'ent' or method == 'all':
         plt.plot(labeled, entErr, 'b', label='ENT')
     if method == 'kcg' or method == 'all':
-        plt.plot(labeled, kcgErr, 'o', label='KCG')
+        plt.plot(labeled, kcgErr, 'k', label='KCG')
 
     # Add labels and title
     plt.xlabel('Labeled %')
