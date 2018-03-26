@@ -9,7 +9,7 @@ def pseudoLabel(model, labeled, actTrnData, actPoolData, actPoolLabels):
     # Using entropy to determine trustworthy samples
     ent_score = np.sum(-probs * np.log(probs), axis=1)
     # Threshold for selecting highly certain samples and its decay
-    threshold_base = 0.005
+    threshold_base = 0.0005
     threshold_decay = 0.000033
     # -9 because labeled % starts at 10
     threshold = threshold_base - ((max(labeled) - 9) * threshold_decay)
