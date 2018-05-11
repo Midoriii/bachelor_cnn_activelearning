@@ -178,7 +178,7 @@ def main():
     # Get model, method and number of querries
     dataset, mdl, mthd, percentage_limit, desired_epochs, percentage_increase, oracle_correct, pseudo_labels, outfile = getArgs()
     # Set up tensorflow
-    tfSetUp()
+    #tfSetUp()
     # Read dataset
     trnData, tstData, trnLabels, tstLabels, actTrnData, actTrnLabels, actPoolData, actPoolLabels, class_number = getData(dataset)
 

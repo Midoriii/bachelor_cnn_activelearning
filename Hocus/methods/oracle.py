@@ -22,8 +22,8 @@ def oracleSim(oracle_correct, labels):
             addition = mapLabelsOneHot(botched_label, 'yes', class_number)
 
         # Append new/old label
-        print(addition)
-        print(edited_labels)
+        #print(addition)
+        #print(edited_labels)
         edited_labels = np.append(edited_labels, addition, axis=0)
 
     return edited_labels

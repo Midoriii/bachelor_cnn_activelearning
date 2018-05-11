@@ -56,9 +56,9 @@ while os.path.isfile(data_path):
     model = graph_data['model']
 
     # Make single line from baseline error -- only the best score, the unreachable border
-    baseErrMax = min(baseErr)
-    baseErrLine = np.empty(len(labeled))
-    baseErrLine.fill(baseErrMax)
+    #baseErrMax = min(baseErr)
+    #baseErrLine = np.empty(len(labeled))
+    #baseErrLine.fill(baseErrMax)
 
     rsErr = savgol_filter(rsErr, 15, 9)
     lcErr = savgol_filter(lcErr, 15, 9)
@@ -68,9 +68,9 @@ while os.path.isfile(data_path):
 
     # Plot data based on method used
     if method == 'base' or method == 'all':
-        plt.plot(labeled, baseErrLine, linestyle = ':', color='C1', label='Base')
+        plt.plot(labeled, baseErr, linestyle = ':', color='m', label='Base')
     if method == 'rs' or method == 'all':
-        plt.plot(labeled, rsErr, linestyle=':', color='y', label='RS')
+        plt.plot(labeled, rsErr, linestyle=':', color='C1', label='RS')
     if method == 'lc' or method == 'all':
         plt.plot(labeled, lcErr, 'g', label='LC')
     if method == 'sm' or method == 'all':
