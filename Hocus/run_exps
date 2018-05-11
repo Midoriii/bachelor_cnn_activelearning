@@ -1,6 +1,0 @@
-#!/bin/bash
-#Script to autoexecute several experiments with varying parameters
-clear
-./run_exps_unc1
-./run_exps_unc5
-./run_exps_oracle5
